@@ -8,12 +8,12 @@ Route::get('/', function () {
 
 
 Route::get('/display', function () {
-    return view('display');
+    return view('display', ['title' => 'Monitoring Display']);
 });
 
 
 
 Route::get('/aws', function () {
-    return view('aws');
+    return view('aws', ['title' => 'Monitoring AWS']);
 });
 
