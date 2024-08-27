@@ -96,7 +96,7 @@
     @foreach($screenshots as $deviceId => $screenshot)
         <div class="container" id="container-{{ $deviceId }}">
             <div class="device-id">{{ $deviceId }}</div>
-            <div class="indicator {{ $screenshot ? 'online' : 'offline' }}"></div>
+            <div class="indicator {{ $screenshot && $screenshot['is_online'] ? 'online' : 'offline' }}"></div>
             <div class="screenshot-box">
                 @if($screenshot)
                     <img src="{{ $screenshot['url'] }}" alt="Screenshot dari {{ $deviceId }}" class="device-image" id="screenshot-{{ $deviceId }}">
@@ -139,7 +139,7 @@
                             lastUpdateElement.textContent = `Last Update: ${screenshot.updated_at}`;
                         }
 
-                        indicator.className = `indicator ${screenshot ? 'online' : 'offline'}`;
+                        indicator.className = `indicator ${screenshot && screenshot.is_online ? 'online' : 'offline'}`;
                     }
                 });
         }

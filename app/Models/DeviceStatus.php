@@ -5,19 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Device extends Model
+class DeviceStatus extends Model
 {
     use HasFactory;
 
     protected $fillable = ['device_id', 'is_online'];
 
-    public function screenshots()
+    public function device()
     {
-        return $this->hasMany(Screenshot::class);
-    }
-
-    public function status()
-    {
-        return $this->hasOne(DeviceStatus::class);
+        return $this->belongsTo(Device::class);
     }
 }

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 use App\Models\Device;
 use App\Models\Screenshot;
+use App\Models\DeviceStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class DeviceController extends Controller
 {
@@ -35,6 +37,12 @@ class DeviceController extends Controller
                 'screenshot_path' => $path,
             ]);
 
+            // Perbarui status perangkat
+            DeviceStatus::updateOrCreate(
+                ['device_id' => $device->id],
+                ['is_online' => true, 'updated_at' => Carbon::now()]
+            );
+
             // Hapus gambar lama jika lebih dari 3
             $this->deleteOldScreenshots($device);
 
@@ -62,14 +70,15 @@ class DeviceController extends Controller
     public function getLatestScreenshot()
     {
         try {
-            $devices = Device::with('screenshots')->get();
+            $devices = Device::with('screenshots', 'status')->get();
             $screenshots = [];
 
             foreach ($devices as $device) {
                 $latestScreenshot = $device->screenshots()->latest()->first();
                 $screenshots[$device->device_id] = $latestScreenshot ? [
                     'url' => Storage::url($latestScreenshot->screenshot_path),
-                    'updated_at' => $latestScreenshot->updated_at->toDateTimeString()
+                    'updated_at' => $latestScreenshot->updated_at->toDateTimeString(),
+                    'is_online' => $device->status ? $device->status->is_online : false
                 ] : null;
             }
 
@@ -83,12 +92,16 @@ class DeviceController extends Controller
     public function showDisplay()
     {
         try {
-            $devices = Device::with('screenshots')->get();
+            $devices = Device::with('screenshots', 'status')->get();
             $screenshots = [];
 
             foreach ($devices as $device) {
                 $latestScreenshot = $device->screenshots()->latest()->first();
-                $screenshots[$device->device_id] = $latestScreenshot ? Storage::url($latestScreenshot->screenshot_path) : null;
+                $screenshots[$device->device_id] = $latestScreenshot ? [
+                    'url' => Storage::url($latestScreenshot->screenshot_path),
+                    'updated_at' => $latestScreenshot->updated_at->toDateTimeString(),
+                    'is_online' => $device->status ? $device->status->is_online : false
+                ] : null;
             }
 
             return view('display', ['screenshots' => $screenshots]);
