@@ -1,5 +1,5 @@
 <x-layout> 
-    <x-slot:title> Device Monitoring </x-slot:title>
+    <x-slot:title> Monitoring Display </x-slot:title>
     <head>
         <style>
             body {

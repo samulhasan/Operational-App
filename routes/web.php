@@ -16,7 +16,7 @@ Route::get('/history', function () {
 });
 
 Route::get('/aws', function () {
-    return view('aws', ['title'=> 'AWS Center']);
+    return view('aws', ['title'=> ' Monitoring AWS ']);
 });
 
 Route::get('/display', [DeviceController::class, 'showDisplay']);
