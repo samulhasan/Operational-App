@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 use App\Models\Device;
+use App\Models\DeviceLog;
 use App\Models\Screenshot;
 use App\Models\DeviceStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DeviceController extends Controller
 {
@@ -125,5 +127,86 @@ class DeviceController extends Controller
             Log::error('Error deleting device: ' . $e->getMessage());
             return response()->json(['success' => false, 'error' => 'Error deleting device'], 500);
         }
+    }
+
+    public function showDeviceLogs(Request $request)
+    {
+        try {
+            $query = DeviceLog::with('device'); // Load the related device
+
+            if ($request->filled('device_id')) {
+                $query->where('device_id', $request->device_id);
+            }
+
+            if ($request->filled('start_date') && $request->filled('end_date')) {
+                $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
+            }
+
+            if ($request->filled('start_time') && $request->filled('end_time')) {
+                $query->whereTime('created_at', '>=', $request->start_time)
+                      ->whereTime('created_at', '<=', $request->end_time);
+            }
+
+            if ($request->filled('sort')) {
+                $query->orderBy('created_at', $request->sort);
+            } else {
+                $query->orderBy('created_at', 'desc'); // Default to 'desc' for latest first
+            }
+
+            $perPage = $request->input('per_page', 10); // Default to 10 rows per page
+            $deviceLogs = $query->paginate($perPage);
+            $devices = Device::all();
+
+            return view('history', ['deviceLogs' => $deviceLogs, 'devices' => $devices]);
+        } catch (\Exception $e) {
+            Log::error('Error fetching device logs: ' . $e->getMessage());
+            return response()->json(['error' => 'Error fetching device logs'], 500);
+        }
+    }
+
+    public function downloadDeviceLogs(Request $request)
+    {
+        $query = DeviceLog::with('device'); // Load the related device
+
+        if ($request->filled('device_id')) {
+            $query->where('device_id', $request->device_id);
+        }
+
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
+        }
+
+        if ($request->filled('start_time') && $request->filled('end_time')) {
+            $query->whereTime('created_at', '>=', $request->start_time)
+                  ->whereTime('created_at', '<=', $request->end_time);
+        }
+
+        if ($request->filled('sort')) {
+            $query->orderBy('created_at', $request->sort);
+        } else {
+            $query->orderBy('created_at', 'desc'); // Default to 'desc' for latest first
+        }
+
+        $deviceLogs = $query->get();
+
+        $response = new StreamedResponse(function() use ($deviceLogs) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, ['Device ID', 'Status', 'Created At']);
+
+            foreach ($deviceLogs as $log) {
+                fputcsv($handle, [
+                    $log->device->device_id,
+                    $log->is_online ? 'Online' : 'Offline',
+                    $log->created_at
+                ]);
+            }
+
+            fclose($handle);
+        });
+
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="device_logs.csv"');
+
+        return $response;
     }
 }

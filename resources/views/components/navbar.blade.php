@@ -13,9 +13,9 @@
             <x-navlink href="/display" :active="request()->is('display')" >Display</x-navlink>
             <x-navlink href="/aws" :active="request()->is('aws')" >AWS</x-navlink>
             <x-navlink href="/history" :active="request()->is('history')" >History</x-navlink>
-            <x-navlink href="/report" :active="request()->is('report')" > Report</x-navlink>
+            <x-navlink href="/dashboard " :active="request()->is('dashboard')" > Dashboard</x-navlink>
           </div>
-        </div>
+        </div>  
       </div>
       <div class="hidden md:block">
         <div class="ml-4 flex items-center md:ml-6">

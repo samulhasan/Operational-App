@@ -16,9 +16,13 @@ Route::get('/history', function () {
 });
 
 Route::get('/aws', function () {
-    return view('aws', ['title'=> ' Monitoring AWS ']);
+    return view('aws', ['title'=> 'Monitoring AWS']);
 });
 
 Route::get('/display', [DeviceController::class, 'showDisplay']);
 
 Route::delete('/api/delete-device/{device}', [DeviceController::class, 'deleteDevice']);
+
+
+Route::get('/history', [DeviceController::class, 'showDeviceLogs'])->name('device.logs');
+Route::get('/history/download', [DeviceController::class, 'downloadDeviceLogs'])->name('device.logs.download');
