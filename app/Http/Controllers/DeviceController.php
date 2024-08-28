@@ -110,4 +110,20 @@ class DeviceController extends Controller
             return response()->json(['error' => 'Error displaying screenshots'], 500);
         }
     }
+
+    public function deleteDevice($deviceId)
+    {
+        try {
+            $device = Device::where('device_id', $deviceId)->first();
+            if ($device) {
+                $device->delete();
+                return response()->json(['success' => true]);
+            } else {
+                return response()->json(['success' => false, 'error' => 'Device not found'], 404);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error deleting device: ' . $e->getMessage());
+            return response()->json(['success' => false, 'error' => 'Error deleting device'], 500);
+        }
+    }
 }

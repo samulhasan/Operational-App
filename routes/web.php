@@ -20,3 +20,5 @@ Route::get('/aws', function () {
 });
 
 Route::get('/display', [DeviceController::class, 'showDisplay']);
+
+Route::delete('/api/delete-device/{device}', [DeviceController::class, 'deleteDevice']);
