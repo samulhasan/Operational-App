@@ -1,5 +1,9 @@
-<x-layout> 
- <x-slot:title> {{$title}}</x-slot:title>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('AWS') }}
+        </h2>
+    </x-slot>
 
 
 <style>
@@ -11,7 +15,8 @@
     }
     #map {
         height: 70vh; /* 70% dari tinggi viewport */
-        width: 100%;  /* 100% dari lebar halaman */
+        width: 70%;  /* 100% dari lebar halaman */
+        margin: 40px auto; /* Menambahkan margin atas dan bawah otomatis untuk memusatkan */
     }
 </style>
 
@@ -31,4 +36,4 @@
     }).addTo(map);
 </script>
 
-</x-layout>
+</x-app-layout>

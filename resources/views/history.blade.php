@@ -1,7 +1,11 @@
-<x-layout>
-    <x-slot:title> History Display </x-slot:title>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('history') }}
+        </h2>
+    </x-slot>
 
-    <div class="container mt-5">
+    <div class="container mt-5" style="max-width: 1200px;"> <!-- Mengatur lebar maksimum kontainer -->
         <h2 class="mb-4"> History Display </h2>
 
         <!-- Filter and Sort Form -->
@@ -81,8 +85,18 @@
         </table>
 
         <!-- Pagination Links -->
+        <style>
+            .pagination {
+                height: 30px; /* Mengatur tinggi bar pagination */
+                font-size: 0.8rem; /* Mengatur ukuran font */
+            }
+            .pagination li {
+                padding: 0 5px; /* Mengatur padding item pagination */
+            }
+        </style>
         <div class="d-flex justify-content-center">
             {{ $deviceLogs->appends(request()->query())->links() }}
         </div>
     </div>
-</x-layout>
+    
+</x-app-layout>

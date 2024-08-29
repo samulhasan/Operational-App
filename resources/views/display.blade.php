@@ -1,5 +1,9 @@
-<x-layout> 
-    <x-slot:title> Monitoring Display </x-slot:title>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Display') }}
+        </h2>
+    </x-slot>
     <head>
         <style>
             body {
@@ -136,6 +140,7 @@
     </head>
     
     <body>
+   
         <div class="main-content" id="mainContent">
             @foreach($screenshots as $deviceId => $screenshot)
                 <div class="container" id="container-{{ $deviceId }}">
@@ -159,6 +164,7 @@
                 </div>
             @endforeach
         </div>
+   
 
         <script>
             function updateScreenshots() {
@@ -235,4 +241,5 @@
             });
         </script>
     </body>
-</x-layout>
+
+</x-app-layout>

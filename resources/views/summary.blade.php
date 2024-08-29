@@ -1,49 +1,7 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
-    <head>
-        <style>
-
-    .main-content {
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        padding: 20px;
-        opacity: 1;
-        transition: opacity 1s ease-out;
-        flex-wrap: wrap; /* Added to handle smaller screens */
-    }
-
-    .container {
-        width: 45%;
-        display: grid;
-        grid-template-areas: ""; /* Removed undefined grid areas */
-        grid-gap: 20px;
-        background-color: #fff;
-        padding: 45px;
-        border-radius: 15px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        align-items: center;
-        transition: box-shadow 0.3s ease;
-        position: relative; /* Added for indicator positioning */
-        margin-bottom: 20px; /* Added to handle spacing between containers */
-    }
-
-    .container:hover {
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
-
-    </style>
-    </head>
-
-
-
+<x-layout>
+    <x-slot:title> Dashboard </x-slot:title>
     
-    <h2 style="text-align: center; padding-top: 20px;">Device Status Summary (Last 24 Hours)</h2>
+    <h2 style="text-align: center;">Device Status Summary (Last 24 Hours)</h2>
 
     <div id="charts" class="d-flex flex-wrap justify-content-center"> <!-- Center the charts -->
         @foreach ($deviceData as $deviceId => $statusCounts)
@@ -56,7 +14,7 @@
 
     <!-- Move the table below the charts -->
     <h2 style="margin-top: 20px; text-align: center;">Device Status Summary Table</h2>
-    <table class="table table-bordered" style="width: 60%; margin: auto;"> <!-- Adjusted width -->
+    <table class="table table-bordered" style="width: 80%; margin: auto;">
         <thead>
             <tr>
                 <th>Device ID</th>
@@ -123,5 +81,9 @@
             });
         });
     </script>
-    
-</x-app-layout>
+</x-layout>ugin
+                });
+            });
+        });
+    </script>
+</x-layout>
