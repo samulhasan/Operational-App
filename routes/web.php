@@ -26,3 +26,5 @@ Route::delete('/api/delete-device/{device}', [DeviceController::class, 'deleteDe
 
 Route::get('/history', [DeviceController::class, 'showDeviceLogs'])->name('device.logs');
 Route::get('/history/download', [DeviceController::class, 'downloadDeviceLogs'])->name('device.logs.download');
+
+Route::get('/dashboard', [DeviceController::class, 'showDashboard']);

@@ -209,4 +209,27 @@ class DeviceController extends Controller
 
         return $response;
     }
+
+    public function showDashboard()
+    {
+        $startDate = Carbon::now()->subDay();
+        $endDate = Carbon::now();
+
+        $deviceLogs = DeviceLog::whereBetween('created_at', [$startDate, $endDate])
+            ->get()
+            ->groupBy('device_id') // Group by device_id
+            ->map(function ($logs) {
+                $onlineCount = $logs->where('is_online', true)->count();
+                $offlineCount = $logs->where('is_online', false)->count();
+
+                return [
+                    'online' => $onlineCount,
+                    'offline' => $offlineCount
+                ];
+            });
+
+        Log::info('Device Logs:', $deviceLogs->toArray());
+
+        return view('dashboard', ['deviceData' => $deviceLogs]);
+    }
 }
