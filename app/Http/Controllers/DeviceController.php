@@ -214,10 +214,12 @@ class DeviceController extends Controller
     {
         $startDate = Carbon::now()->subDay();
         $endDate = Carbon::now();
-
-        $deviceLogs = DeviceLog::whereBetween('created_at', [$startDate, $endDate])
+        $deviceLogs = DeviceLog::with('device') // Load the related device
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->get()
-            ->groupBy('device_id') // Group by device_id
+            ->groupBy(function ($log) {
+                return $log->device->device_id; // Group by device_id from the related device
+            })
             ->map(function ($logs) {
                 $onlineCount = $logs->where('is_online', true)->count();
                 $offlineCount = $logs->where('is_online', false)->count();

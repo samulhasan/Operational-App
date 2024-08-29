@@ -8,41 +8,44 @@
     <head>
         <style>
 
-    .main-content {
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        padding: 20px;
-        opacity: 1;
-        transition: opacity 1s ease-out;
-        flex-wrap: wrap; /* Added to handle smaller screens */
-    }
+            .main-content {
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+                padding: 50px;
+                opacity: 1;
+                transition: opacity 1s ease-out;
+                flex-wrap: wrap; /* Added to handle smaller screens */
+            }
 
-    .container {
-        width: 45%;
-        display: grid;
-        grid-template-areas: ""; /* Removed undefined grid areas */
-        grid-gap: 20px;
-        background-color: #fff;
-        padding: 45px;
-        border-radius: 15px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        align-items: center;
-        transition: box-shadow 0.3s ease;
-        position: relative; /* Added for indicator positioning */
-        margin-bottom: 20px; /* Added to handle spacing between containers */
-    }
+            .container {
+                width: 70%;
+                display: grid;
+                grid-template-areas: ""; /* Removed undefined grid areas */
+                grid-gap: 20px;
+                background-color: #fff;
+                padding: 45px;
+                border-radius: 15px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                align-items: center;
+                transition: box-shadow 0.3s ease;
+                position: relative; /* Added for indicator positioning */
+                margin-bottom: 20px; /* Added to handle spacing between containers */
+            }
 
-    .container:hover {
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    }
+            .container:hover {
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            }
 
     </style>
     </head>
 
 
 
+    <body>
     
+    <div class="main-content" id="mainContent">   
+    <div class="container"
     <h2 style="text-align: center; padding-top: 20px;">Device Status Summary (Last 24 Hours)</h2>
 
     <div id="charts" class="d-flex flex-wrap justify-content-center"> <!-- Center the charts -->
@@ -53,7 +56,9 @@
             </div>
         @endforeach
     </div>
+    </div>
 
+    <div class="container"
     <!-- Move the table below the charts -->
     <h2 style="margin-top: 20px; text-align: center;">Device Status Summary Table</h2>
     <table class="table table-bordered" style="width: 60%; margin: auto;"> <!-- Adjusted width -->
@@ -74,6 +79,8 @@
             @endforeach
         </tbody>
     </table>
+    </div>
+   
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script> <!-- Include the plugin -->
@@ -123,5 +130,6 @@
             });
         });
     </script>
-    
+
+     </body>
 </x-app-layout>

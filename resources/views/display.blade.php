@@ -7,9 +7,7 @@
     <head>
         <style>
             body {
-                margin: 0;
-                background-color: #f9f9f9;
-                color: #333;
+
                 overflow: auto; /* Changed from hidden to auto */
             }
 
@@ -17,14 +15,14 @@
                 display: flex;
                 justify-content: space-around;
                 width: 100%;
-                padding: 20px;
+                padding: 50px;
                 opacity: 1;
                 transition: opacity 1s ease-out;
                 flex-wrap: wrap; /* Added to handle smaller screens */
             }
 
             .container {
-                width: 45%;
+                width: 40%;
                 display: grid;
                 grid-template-areas: ""; /* Removed undefined grid areas */
                 grid-gap: 20px;

@@ -85,16 +85,7 @@
         </table>
 
         <!-- Pagination Links -->
-        <style>
-            .pagination {
-                height: 30px; /* Mengatur tinggi bar pagination */
-                font-size: 0.8rem; /* Mengatur ukuran font */
-            }
-            .pagination li {
-                padding: 0 5px; /* Mengatur padding item pagination */
-            }
-        </style>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center" style="font-size: 0.8rem; padding: 40px;"> <!-- Mengatur ukuran font dan padding untuk pagination -->
             {{ $deviceLogs->appends(request()->query())->links() }}
         </div>
     </div>

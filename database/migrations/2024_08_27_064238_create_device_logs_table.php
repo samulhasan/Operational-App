@@ -19,5 +19,6 @@ class CreateDeviceLogsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('device_logs');
+
     }
 }
