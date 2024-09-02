@@ -51,7 +51,7 @@
     <div id="charts" class="d-flex flex-wrap justify-content-center"> <!-- Center the charts -->
         @foreach ($deviceData as $deviceId => $statusCounts)
             <div class="chart-container" style="width: 250px; margin: 10px;"> <!-- Adjusted width -->
-                <h3 style="text-align: center;">Device ID: {{ $deviceId }}</h3>
+                <h3 style="text-align: center;"> {{ $deviceId }}</h3>
                 <canvas id="chart-{{ $deviceId }}" width="250" height="250"></canvas> <!-- Adjusted size -->
             </div>
         @endforeach
@@ -60,13 +60,13 @@
 
     <div class="container"
     <!-- Move the table below the charts -->
-    <h2 style="margin-top: 20px; text-align: center;">Device Status Summary Table</h2>
+    <h2 style="margin-top: 20px; text-align: center;">Rangkuman Status Display permenit</h2>
     <table class="table table-bordered" style="width: 60%; margin: auto;"> <!-- Adjusted width -->
         <thead>
             <tr>
                 <th>Device ID</th>
-                <th>Online Count</th>
-                <th>Offline Count</th>
+                <th>Online Hit</th>
+                <th>Offline Hit</th>
             </tr>
         </thead>
         <tbody>
