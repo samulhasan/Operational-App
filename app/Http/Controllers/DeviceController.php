@@ -212,8 +212,8 @@ class DeviceController extends Controller
 
     public function showDashboard()
     {
-        $startDate = Carbon::now()->subDay();
-        $endDate = Carbon::now();
+        $startDate = Carbon::today()->addMinutes(1); // Set start time to 00:01 today
+        $endDate = Carbon::today()->endOfDay(); // Set end time to 23:59 today
         $deviceLogs = DeviceLog::with('device') // Load the related device
             ->whereBetween('created_at', [$startDate, $endDate])
             ->get()

@@ -5,7 +5,7 @@
         </h2>
         
 
-        <a href="https://remotedesktop.google.com/access/" class="btn btn-primary" target="_blank" style="float: right;">Remote</a>
+        <a href="https://remotedesktop.google.com/access/" class="btn btn-primary" target="_blank" style="float: right; margin-top: -30px;">Remote</a>
 
     </x-slot>
     <head>

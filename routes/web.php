@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\IframeController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,9 +20,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/aws', function () {
-    return view('aws');
-})->middleware(['auth', 'verified'])->name('aws');
+Route::get('/aws', [IframeController::class, 'index'])->middleware(['auth', 'verified'])->name('aws');
+Route::post('/aws', [IframeController::class, 'store'])->middleware(['auth', 'verified'])->name('addIframe');
+Route::delete('/api/delete-iframe/{iframe}', [IframeController::class, 'destroy'])->middleware(['auth', 'verified']);
 
 Route::get('/display', [DeviceController::class, 'showDisplay'], function () {
     return view('display');
@@ -32,10 +34,6 @@ Route::get('/history', [DeviceController::class, 'showDeviceLogs'], function () 
 
 Route::get('/history/download', [DeviceController::class, 'downloadDeviceLogs']
 )->middleware(['auth', 'verified'])->name('device.logs.download');
-
-
-
-
 
 Route::delete('/api/delete-device/{device}', [DeviceController::class, 'deleteDevice']);
 
