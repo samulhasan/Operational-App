@@ -8,6 +8,12 @@
         <a href="https://remotedesktop.google.com/access/" class="btn btn-primary" target="_blank" style="float: right; margin-top: -30px;">Remote</a>
 
     </x-slot>
+
+
+    <x-slot name="title">
+            {{ __('Display') }}
+    </x-slot>
+
     <head>
         <style>
             body {
@@ -142,6 +148,9 @@
     </head>
     
     <body>
+        <div class="alert alert-warning" style="text-align: center; margin-bottom: 20px;">
+            Refresh halaman atau tekan F5 jika download gambar error
+        </div>
    
         <div class="main-content" id="mainContent">
             @foreach($screenshots as $deviceId => $screenshot)
@@ -244,4 +253,5 @@
         </script>
     </body>
 
+    
 </x-app-layout>

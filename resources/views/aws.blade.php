@@ -6,6 +6,12 @@
     </x-slot>
 
 
+    <x-slot name="title">
+            {{ __('AWS') }}
+    </x-slot>
+
+
+
 <style>
     html, body {
         height: 100%;

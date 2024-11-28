@@ -5,6 +5,11 @@
         </h2>
     </x-slot>
 
+    <x-slot name="title">
+            {{ __('History') }}
+    </x-slot>
+
+
     <div class="container mt-5" style="max-width: 1200px;"> <!-- Mengatur lebar maksimum kontainer -->
         <h2 class="mb-4"> History Display </h2>
 

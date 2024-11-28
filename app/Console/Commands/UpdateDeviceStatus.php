@@ -23,12 +23,12 @@ class UpdateDeviceStatus extends Command
     {
         Log::info('UpdateDeviceStatus command started.');
 
-        $oneMinuteAgo = Carbon::now()->subMinute();
+        $fiveMinuteAgo = Carbon::now()->subMinutes(5);
 
         $devices = Device::all();
 
         foreach ($devices as $device) {
-            $isOnline = $device->status && $device->status->updated_at >= $oneMinuteAgo;
+            $isOnline = $device->status && $device->status->updated_at >= $fiveMinuteAgo;
 
             // Update device status
             DeviceStatus::updateOrCreate(

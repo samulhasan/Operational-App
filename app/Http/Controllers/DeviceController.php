@@ -209,17 +209,16 @@ class DeviceController extends Controller
 
         return $response;
     }
-
     public function showDashboard()
     {
-        $startDate = Carbon::today()->addMinutes(1); // Set start time to 00:01 today
-        $endDate = Carbon::today()->endOfDay(); // Set end time to 23:59 today
-        $deviceLogs = DeviceLog::with('device') // Load the related device
-            ->whereBetween('created_at', [$startDate, $endDate])
+        $startDateToday = Carbon::today()->addMinutes(1); // Start time 00:01 today
+        $endDateToday = Carbon::today()->endOfDay(); // End time 23:59 today
+
+        // Fetch logs for the last 24 hours and group by device ID
+        $deviceLogsToday = DeviceLog::with('device')
+            ->whereBetween('created_at', [$startDateToday, $endDateToday])
             ->get()
-            ->groupBy(function ($log) {
-                return $log->device->device_id; // Group by device_id from the related device
-            })
+            ->groupBy(fn($log) => $log->device->device_id)
             ->map(function ($logs) {
                 $onlineCount = $logs->where('is_online', true)->count();
                 $offlineCount = $logs->where('is_online', false)->count();
@@ -230,8 +229,46 @@ class DeviceController extends Controller
                 ];
             });
 
-        Log::info('Device Logs:', $deviceLogs->toArray());
+        Log::info('Device Logs for Last 24 Hours:', $deviceLogsToday->toArray());
 
-        return view('dashboard', ['deviceData' => $deviceLogs]);
+        // Fetch logs for the last 30 days and group by device ID
+        $startDate30Days = Carbon::today()->subDays(30);
+        $endDate30Days = Carbon::today()->endOfDay();
+
+        $deviceLogsLast30Days = DeviceLog::with('device')
+            ->whereBetween('created_at', [$startDate30Days, $endDate30Days])
+            ->get()
+            ->groupBy(fn($log) => $log->device->device_id)
+            ->map(function ($logs) {
+                $dailyStatus = [];
+
+                foreach ($logs as $log) {
+                    $date = Carbon::parse($log->created_at)->toDateString();
+                    if (!isset($dailyStatus[$date])) {
+                        $dailyStatus[$date] = false;
+                    }
+                    if ($log->is_online) {
+                        $dailyStatus[$date] = true;
+                    }
+                }
+
+                $onlineCount = count(array_filter($dailyStatus, fn($status) => $status));
+                $offlineCount = count($dailyStatus) - $onlineCount;
+
+                return [
+                    'online' => $onlineCount,
+                    'offline' => $offlineCount
+                ];
+            });
+
+        Log::info('Device Logs for Last 30 Days:', $deviceLogsLast30Days->toArray());
+
+        // Pass both data sets to the view
+        return view('dashboard', [
+            'deviceData' => $deviceLogsToday,
+            'deviceDataLast30Days' => $deviceLogsLast30Days
+        ]);
     }
 }
+
+
